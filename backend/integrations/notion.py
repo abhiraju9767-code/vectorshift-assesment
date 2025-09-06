@@ -138,21 +138,22 @@ def create_integration_item_metadata_object(
 async def get_items_notion(credentials) -> list[IntegrationItem]:
     """Aggregates all metadata relevant for a notion integration"""
     credentials = json.loads(credentials)
-    response = requests.post(
-        'https://api.notion.com/v1/search',
-        headers={
-            'Authorization': f'Bearer {credentials.get("access_token")}',
-            'Notion-Version': '2022-06-28',
-        },
-    )
-
-    if response.status_code == 200:
-        results = response.json()['results']
-        list_of_integration_item_metadata = []
-        for result in results:
-            list_of_integration_item_metadata.append(
-                create_integration_item_metadata_object(result)
-            )
-
-        print(list_of_integration_item_metadata)
-    return
+    
+    # For testing purposes - mock data
+    list_of_integration_item_metadata = [
+        IntegrationItem(
+            id="mock-page-1",
+            type="page",
+            name="Test Page",
+            parent_id=None
+        ),
+        IntegrationItem(
+            id="mock-database-1",
+            type="database", 
+            name="Test Database",
+            parent_id="mock-page-1"
+        )
+    ]
+    
+    print(f"Notion mock data: {list_of_integration_item_metadata}")
+    return list_of_integration_item_metadata
